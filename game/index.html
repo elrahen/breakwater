@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breakwater — Defend the Harbor Lantern</title>
+<link rel="icon" href="data:,">
+<style>
+  html, body { margin: 0; padding: 0; background: #04101f; height: 100%; }
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  #wrap { width: 1280px; max-width: 100vw; }
+  canvas { display: block; width: 100%; height: auto; background: #0b2239; cursor: crosshair; }
+  #help { color: #94a3b8; font: 13px sans-serif; text-align: center; padding: 8px 0 0; margin: 0; }
+  #help b { color: #e0f2fe; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game" width="1280" height="720"></canvas>
+  <p id="help"><b>Breakwater</b> — click a stone pad to build a tower · <b>1/2/3</b> pick a tower · <b>Space</b> start wave / 2x speed · <b>P</b> pause · <b>R</b> restart · <b>M</b> mute · <b>Esc</b> deselect. Hold the lantern through 10 waves.</p>
+</div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
