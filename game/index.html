@@ -12,11 +12,34 @@
   canvas { display: block; width: 100%; height: auto; background: #0b2239; cursor: crosshair; }
   #help { color: #94a3b8; font: 13px sans-serif; text-align: center; padding: 8px 0 0; margin: 0; }
   #help b { color: #e0f2fe; }
+  /* On-screen tower picker: touch devices only (desktop keeps 1/2/3 keys). */
+  #towerbar { display: none; gap: 8px; padding: 10px 0 0; }
+  #towerbar button {
+    flex: 1; min-height: 48px; touch-action: manipulation;
+    background: #0b2239; color: #e0f2fe; font: 600 15px sans-serif;
+    border: 2px solid #1d4e6e; border-radius: 10px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  #towerbar button .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+  #towerbar button b { color: #fbbf24; font-weight: 700; }
+  #towerbar button.selected { border-color: #fbbf24; background: #155e86; }
+  #towerbar button:active { transform: scale(0.97); }
+  #towerhint { display: none; color: #94a3b8; font: 13px sans-serif; text-align: center; padding: 6px 0 0; margin: 0; }
+  @media (pointer: coarse) {
+    #towerbar { display: flex; }
+    #towerhint { display: block; }
+  }
 </style>
 </head>
 <body>
 <div id="wrap">
   <canvas id="game" width="1280" height="720"></canvas>
+  <div id="towerbar" role="group" aria-label="Pick a tower">
+    <button type="button" data-tower="harpoon"><span class="dot" style="background:#ffd166"></span>Harpoon <b>50</b></button>
+    <button type="button" data-tower="frost"><span class="dot" style="background:#7dd3fc"></span>Frost <b>75</b></button>
+    <button type="button" data-tower="cannon"><span class="dot" style="background:#fb923c"></span>Cannon <b>120</b></button>
+  </div>
+  <p id="towerhint">Tap a tower, then tap a stone pad to build it.</p>
   <p id="help"><b>Breakwater</b> — click a stone pad to build a tower · <b>1/2/3</b> pick a tower · <b>Space</b> start wave / 2x speed · <b>P</b> pause · <b>R</b> restart · <b>M</b> mute · <b>Esc</b> deselect. Hold the lantern through 10 waves.</p>
 </div>
 <script type="module" src="./src/main.js"></script>

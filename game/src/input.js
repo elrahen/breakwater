@@ -8,6 +8,15 @@ import { startWave } from './waves.js';
 import { resetState } from './state.js';
 import { ensureAudio, setMuted, sfx } from './audio.js';
 
+// On-screen tower picker (touch devices): mirrors the 1/2/3 keys so the
+// game is fully playable without a keyboard. Kept in sync with
+// state.selectedType wherever it changes (keys, tower taps, new game).
+export function syncTowerBar(state) {
+  document.querySelectorAll('#towerbar button').forEach((btn) => {
+    btn.classList.toggle('selected', btn.dataset.tower === state.selectedType);
+  });
+}
+
 export function attachInput(canvas, state, actions) {
   const toGame = (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -30,7 +39,20 @@ export function attachInput(canvas, state, actions) {
     ensureAudio(state.muted);
     const p = toGame(e);
     handleClick(state, p.x, p.y, actions);
+    syncTowerBar(state);
   });
+
+  // On-screen tower buttons: same selection as keys 1/2/3.
+  document.querySelectorAll('#towerbar button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      ensureAudio(state.muted);
+      state.selectedType = btn.dataset.tower;
+      state.selectedTower = null;
+      sfx.click();
+      syncTowerBar(state);
+    });
+  });
+  syncTowerBar(state);
 
   window.addEventListener('keydown', (e) => {
     if (e.repeat) return;
@@ -61,6 +83,7 @@ export function attachInput(canvas, state, actions) {
       if (state.screen === 'title' || state.screen === 'victory' || state.screen === 'defeat') actions.startGame();
       else if (state.screen === 'build') startWave(state);
     }
+    syncTowerBar(state);
   });
 }
 
@@ -145,4 +168,5 @@ export function startNewGame(state) {
   state.buildTimer = 20;
   ensureAudio(state.muted);
   sfx.waveStart();
+  syncTowerBar(state);
 }
